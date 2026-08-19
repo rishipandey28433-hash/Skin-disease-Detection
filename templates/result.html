@@ -1,0 +1,2616 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SkinAI Analysis Report</title>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/chart.js">
+    </script>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+            padding: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f4f7fb;
+
+            color: #1f2937;
+        }
+
+
+        .result-page {
+            width: 100%;
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 30px 20px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .result-header {
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 25px;
+
+            margin-bottom: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            box-shadow:
+                0 8px 25px
+                rgba(0,0,0,0.06);
+        }
+
+
+        .result-header-left {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .result-logo {
+
+            width: 55px;
+
+            height: 55px;
+
+            border-radius: 15px;
+
+            background: #e8f2ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 28px;
+        }
+
+
+        .result-header h1 {
+
+            margin: 0 0 5px;
+
+            font-size: 27px;
+        }
+
+
+        .result-header p {
+
+            margin: 0;
+
+            color: #6b7280;
+
+            font-size: 14px;
+        }
+
+
+        .back-home {
+
+            text-decoration: none;
+
+            padding: 11px 18px;
+
+            border-radius: 10px;
+
+            background: #2563eb;
+
+            color: white;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           META
+        ====================================================== */
+
+        .report-meta {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .report-meta-card {
+
+            background: white;
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 6px 20px
+                rgba(0,0,0,0.05);
+        }
+
+
+        .report-meta-card span {
+
+            display: block;
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            margin-bottom: 6px;
+        }
+
+
+        .report-meta-card strong {
+
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           COMMON CARDS
+        ====================================================== */
+
+        .result-image-card,
+        .result-analysis-card,
+        .dashboard-card,
+        .probability-card,
+        .info-card {
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 22px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 7px 22px
+                rgba(0,0,0,0.05);
+        }
+
+
+        /* =====================================================
+           IMAGE
+        ====================================================== */
+
+        .result-image-card h3 {
+
+            margin-top: 0;
+        }
+
+
+        .result-image-wrapper {
+
+            width: 100%;
+
+            min-height: 300px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #f8fafc;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+        }
+
+
+        .result-image-wrapper img {
+
+            max-width: 100%;
+
+            max-height: 500px;
+
+            object-fit: contain;
+
+            border-radius: 12px;
+        }
+
+
+        /* =====================================================
+           MAIN RESULT
+        ====================================================== */
+
+        .prediction-label {
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            color: #2563eb;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .prediction-name {
+
+            font-size: 32px;
+
+            font-weight: 800;
+
+            margin-bottom: 18px;
+        }
+
+
+        .result-badges {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .result-badge {
+
+            padding: 8px 13px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+        .badge-risk {
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+        }
+
+
+        .badge-stage {
+
+            background: #e0f2fe;
+
+            color: #0369a1;
+        }
+
+
+        .badge-confidence {
+
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        /* =====================================================
+           CONFIDENCE
+        ====================================================== */
+
+        .confidence-box {
+
+            background: #f8fafc;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .confidence-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 10px;
+        }
+
+
+        .confidence-top strong {
+
+            font-size: 18px;
+        }
+
+
+        .progress-bar {
+
+            width: 100%;
+
+            height: 10px;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-fill {
+
+            height: 100%;
+
+            background: #2563eb;
+
+            border-radius: 20px;
+        }
+
+
+        .confidence-box small {
+
+            display: block;
+
+            margin-top: 9px;
+
+            color: #6b7280;
+        }
+
+
+        /* =====================================================
+           RECOMMENDATION
+        ====================================================== */
+
+        .recommendation-box {
+
+            background: #eff6ff;
+
+            border-left:
+                4px solid #2563eb;
+
+            padding: 18px;
+
+            border-radius: 10px;
+        }
+
+
+        .recommendation-box p {
+
+            margin-bottom: 0;
+
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           TOP PREDICTIONS
+        ====================================================== */
+
+        .dashboard-card h3,
+        .probability-card h3 {
+
+            margin-top: 0;
+        }
+
+
+        .prediction-chart-wrap {
+
+            width: 100%;
+
+            max-height: 350px;
+        }
+
+
+        .prediction-list {
+
+            margin-top: 20px;
+        }
+
+
+        .prediction-row {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            padding: 13px 0;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+
+        .prediction-row:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .prediction-rank {
+
+            width: 35px;
+
+            height: 35px;
+
+            border-radius: 50%;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 700;
+        }
+
+
+        .prediction-info {
+
+            flex: 1;
+        }
+
+
+        .prediction-info strong {
+
+            display: block;
+
+            margin-bottom: 7px;
+        }
+
+
+        .prediction-mini-bar {
+
+            width: 100%;
+
+            height: 7px;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .prediction-mini-fill {
+
+            height: 100%;
+
+            background: #2563eb;
+        }
+
+
+        .prediction-percent {
+
+            min-width: 60px;
+
+            text-align: right;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           DONUT
+        ====================================================== */
+
+        .donut-wrap {
+
+            max-width: 420px;
+
+            margin: auto;
+        }
+
+
+        /* =====================================================
+           RISK
+        ====================================================== */
+
+        .risk-layout {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 35px;
+
+            flex-wrap: wrap;
+        }
+
+
+        .risk-gauge {
+
+            width: 180px;
+
+            height: 180px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                conic-gradient(
+                    #2563eb
+                    calc(var(--risk-pct) * 1%),
+                    #e5e7eb 0
+                );
+
+            position: relative;
+
+            flex-shrink: 0;
+        }
+
+
+        .risk-gauge-inner {
+
+            width: 140px;
+
+            height: 140px;
+
+            background: white;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+        }
+
+
+        .risk-gauge-inner strong {
+
+            font-size: 28px;
+
+            font-weight: 800;
+        }
+
+
+        .risk-gauge-inner span {
+
+            font-size: 13px;
+
+            color: #6b7280;
+
+            margin-top: 4px;
+        }
+
+
+        .risk-high {
+
+            background:
+                conic-gradient(
+                    #dc2626
+                    calc(var(--risk-pct) * 1%),
+                    #e5e7eb 0
+                );
+        }
+
+
+        .risk-medium {
+
+            background:
+                conic-gradient(
+                    #f59e0b
+                    calc(var(--risk-pct) * 1%),
+                    #e5e7eb 0
+                );
+        }
+
+
+        .risk-low {
+
+            background:
+                conic-gradient(
+                    #16a34a
+                    calc(var(--risk-pct) * 1%),
+                    #e5e7eb 0
+                );
+        }
+
+
+        .risk-copy {
+
+            flex: 1;
+
+            min-width: 250px;
+        }
+
+
+        .risk-copy h4 {
+
+            font-size: 22px;
+
+            margin-top: 0;
+        }
+
+
+        .risk-copy p {
+
+            line-height: 1.6;
+
+            color: #4b5563;
+        }
+
+
+        .risk-copy small {
+
+            display: block;
+
+            color: #6b7280;
+
+            line-height: 1.5;
+
+            margin-top: 10px;
+        }
+
+
+        /* =====================================================
+           STAGE
+        ====================================================== */
+
+        .stage-track {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 10px;
+        }
+
+
+        .stage-step {
+
+            flex: 1;
+
+            text-align: center;
+        }
+
+
+        .stage-circle {
+
+            width: 40px;
+
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: #2563eb;
+
+            color: white;
+
+            margin: 0 auto 8px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-weight: 700;
+        }
+
+
+        .stage-step span {
+
+            font-size: 12px;
+
+            color: #4b5563;
+        }
+
+
+        .stage-note {
+
+            color: #6b7280;
+
+            font-size: 13px;
+
+            margin-top: 20px;
+        }
+
+
+        /* =====================================================
+           INFO
+        ====================================================== */
+
+        .info-card-icon {
+
+            font-size: 28px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .info-card h2 {
+
+            margin-top: 0;
+        }
+
+
+        .info-card p {
+
+            line-height: 1.7;
+
+            color: #4b5563;
+
+            white-space: pre-line;
+        }
+
+
+        /* =====================================================
+           NOT APPLICABLE
+        ====================================================== */
+
+        .na-card {
+
+            text-align: center;
+
+            padding: 30px;
+        }
+
+
+        .na-image {
+
+            display: block;
+
+            max-width: 400px;
+
+            max-height: 350px;
+
+            object-fit: contain;
+
+            margin: 0 auto 25px;
+
+            border-radius: 15px;
+        }
+
+
+        .na-icon {
+
+            width: 65px;
+
+            height: 65px;
+
+            border-radius: 50%;
+
+            background: #fee2e2;
+
+            color: #dc2626;
+
+            font-size: 32px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin: 20px auto;
+        }
+
+
+        .na-card h2 {
+
+            margin-bottom: 10px;
+        }
+
+
+        .na-card p {
+
+            max-width: 700px;
+
+            margin: auto;
+
+            line-height: 1.7;
+
+            color: #4b5563;
+        }
+
+
+        .na-note {
+
+            display: block;
+
+            color: #6b7280;
+
+            margin-top: 18px;
+        }
+
+
+        /* =====================================================
+           GEMINI ASSISTANT
+        ====================================================== */
+
+        .assistant {
+
+            background: white;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 7px 22px
+                rgba(0,0,0,0.05);
+        }
+
+
+        .assistant-header {
+
+            padding: 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            border-bottom:
+                1px solid #e5e7eb;
+        }
+
+
+        .assistant-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .assistant-icon {
+
+            width: 45px;
+
+            height: 45px;
+
+            border-radius: 12px;
+
+            background: #eef2ff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+
+        .assistant-title h3 {
+
+            margin: 0 0 5px;
+        }
+
+
+        .assistant-title span {
+
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+
+        .chat-body {
+
+            padding: 20px;
+
+            min-height: 180px;
+
+            max-height: 400px;
+
+            overflow-y: auto;
+        }
+
+
+        .chat-message {
+
+            padding: 12px 15px;
+
+            border-radius: 12px;
+
+            max-width: 80%;
+
+            line-height: 1.5;
+
+            margin-bottom: 10px;
+
+            white-space: pre-line;
+        }
+
+
+        .chat-message.bot {
+
+            background: #f3f4f6;
+
+            margin-right: auto;
+        }
+
+
+        .chat-message.user {
+
+            background: #2563eb;
+
+            color: white;
+
+            margin-left: auto;
+        }
+
+
+        .chat-input-area {
+
+            padding: 15px;
+
+            display: flex;
+
+            gap: 10px;
+
+            border-top:
+                1px solid #e5e7eb;
+        }
+
+
+        .chat-input {
+
+            flex: 1;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+
+        .chat-input:focus {
+
+            border-color: #2563eb;
+        }
+
+
+        .voice-btn,
+        .send-btn {
+
+            border: none;
+
+            border-radius: 10px;
+
+            padding: 0 15px;
+
+            cursor: pointer;
+
+            font-size: 16px;
+        }
+
+
+        .voice-btn {
+
+            background: #f3f4f6;
+        }
+
+
+        .send-btn {
+
+            background: #2563eb;
+
+            color: white;
+        }
+
+
+        .voice-status {
+
+            padding: 0 15px 12px;
+
+            color: #6b7280;
+
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ====================================================== */
+
+        .result-actions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin: 25px 0;
+        }
+
+
+        .result-actions button {
+
+            border: none;
+
+            padding: 12px 18px;
+
+            border-radius: 10px;
+
+            background: #2563eb;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: 600;
+        }
+
+
+        .result-actions button:hover,
+        .back-home:hover,
+        .send-btn:hover {
+
+            opacity: 0.9;
+        }
+
+
+        /* =====================================================
+           DISCLAIMER
+        ====================================================== */
+
+        .medical-disclaimer {
+
+            background: #fff7ed;
+
+            border: 1px solid #fed7aa;
+
+            color: #7c2d12;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            line-height: 1.6;
+
+            margin-top: 25px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ====================================================== */
+
+        @media (max-width: 768px) {
+
+            .result-page {
+
+                padding: 15px;
+            }
+
+
+            .result-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .report-meta {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .risk-layout {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+
+            .stage-track {
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 15px;
+            }
+
+
+            .stage-step {
+
+                text-align: left;
+
+                display: flex;
+
+                align-items: center;
+
+                gap: 10px;
+            }
+
+
+            .stage-circle {
+
+                margin: 0;
+            }
+
+
+            .prediction-name {
+
+                font-size: 25px;
+            }
+
+
+            .chat-message {
+
+                max-width: 90%;
+            }
+
+
+            .chat-input-area {
+
+                flex-wrap: wrap;
+            }
+
+
+            .chat-input {
+
+                min-width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="result-page">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <div class="result-header">
+
+        <div class="result-header-left">
+
+            <div class="result-logo">
+                🩺
+            </div>
+
+            <div>
+
+                <h1>
+                    SkinAI Analysis Report
+                </h1>
+
+                <p>
+                    Skin Disease Classification &
+                    Stage Identification
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('index') }}"
+            class="back-home"
+        >
+            ← Back To Home
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         META
+    ====================================================== -->
+
+    <div class="report-meta">
+
+        <div class="report-meta-card">
+
+            <span>
+                Report ID
+            </span>
+
+            <strong>
+                {{ report_id|default(result.report_id if result else 'N/A')|default('N/A') }}
+            </strong>
+
+        </div>
+
+
+        <div class="report-meta-card">
+
+            <span>
+                Analysis Time
+            </span>
+
+            <strong>
+                {{ analysis_time|default(result.analysis_time if result else 'N/A')|default('N/A') }}
+            </strong>
+
+        </div>
+
+
+        <div class="report-meta-card">
+
+            <span>
+                Status
+            </span>
+
+            <strong>
+                {% if status_display %}
+                    {{ status_display }}
+                {% elif result and result.status_display %}
+                    {{ result.status_display }}
+                {% elif status in ['disease', 'healthy', 'uncertain', 'non_disease_condition'] %}
+                    Analysis Complete
+                {% elif status == 'invalid_input' %}
+                    Invalid Image
+                {% elif status == 'error' %}
+                    Analysis Failed
+                {% else %}
+                    Analysis Complete
+                {% endif %}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         HUMAN SKIN / DISEASE RESULT
+    ====================================================== -->
+
+    {% if status == 'disease' %}
+
+
+    <!-- INPUT IMAGE -->
+
+    <div class="result-image-card">
+
+        <h3>
+            Input Image
+        </h3>
+
+        <div class="result-image-wrapper">
+
+            <img
+                src="{{ image_url }}"
+                alt="Uploaded skin image"
+            >
+
+        </div>
+
+    </div>
+
+    {% if gradcam_url %}
+    <!-- GRAD-CAM EXPLAINABILITY HEATMAP -->
+    <div class="result-image-card" style="border: 1px solid #e2e8f0; background: #faf5ff;">
+
+        <h3 style="color: #6b21a8; display: flex; align-items: center; gap: 8px;">
+            <span>🔥</span> AI Grad-CAM Explainability Heatmap
+        </h3>
+
+        <div class="result-image-wrapper">
+
+            <img
+                src="{{ gradcam_url }}"
+                alt="AI Grad-CAM Explainability Heatmap"
+            >
+
+        </div>
+
+        <small style="display: block; margin-top: 10px; color: #7e22ce; text-align: center; line-height: 1.5;">
+            Visual Explainability: Warm/Red regions highlight the key visual patterns evaluated by the EfficientNetB0 model.
+        </small>
+
+    </div>
+    {% endif %}
+
+
+
+    <!-- MAIN RESULT -->
+
+    <div class="result-analysis-card">
+
+        <div class="prediction-label">
+            AI ANALYSIS RESULT
+        </div>
+
+
+        <div class="prediction-name">
+
+            {{ condition_display|default('Unknown') }}
+
+        </div>
+
+
+        <div class="result-badges">
+
+            <span class="result-badge badge-risk">
+
+                {{ risk_level|default('Unknown')|title }}
+                Risk
+
+            </span>
+
+
+            <span class="result-badge badge-confidence">
+
+                AI Confidence:
+                {{ confidence|default(0) }}%
+
+            </span>
+
+        </div>
+
+
+        <!-- CONFIDENCE -->
+
+        <div class="confidence-box">
+
+            <div class="confidence-top">
+
+                <span>
+                    AI Model Confidence
+                </span>
+
+                <strong>
+                    {{ confidence|default(0) }}%
+                </strong>
+
+            </div>
+
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="
+                        width: {{ confidence|default(0) }}%;
+                    "
+                ></div>
+
+            </div>
+
+
+            <small>
+
+                This represents the trained model's
+                prediction confidence. It is not a
+                medical diagnosis probability.
+
+            </small>
+
+        </div>
+
+
+        <!-- RECOMMENDATION -->
+
+        <div class="recommendation-box">
+
+            <strong>
+                AI Recommendation
+            </strong>
+
+            <p>
+                {{ precautions|default(
+                    'Please consult a qualified dermatologist for professional evaluation.'
+                ) }}
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         TOP PREDICTIONS
+    ====================================================== -->
+
+    {% if top_predictions and top_predictions|length > 0 %}
+
+    <div class="dashboard-card">
+
+        <h3>
+            Top Predictions
+        </h3>
+
+
+        <div class="prediction-chart-wrap">
+
+            <canvas
+                id="topPredictionsChart"
+            ></canvas>
+
+        </div>
+
+
+        <div class="prediction-list">
+
+            {% for prediction in top_predictions %}
+
+            <div class="prediction-row">
+
+                <div class="prediction-rank">
+
+                    {{ loop.index }}
+
+                </div>
+
+
+                <div class="prediction-info">
+
+                    <strong>
+
+                        {{ prediction.name|default('Unknown') }}
+
+                    </strong>
+
+
+                    <div class="prediction-mini-bar">
+
+                        <div
+                            class="prediction-mini-fill"
+                            style="
+                                width:
+                                {{ prediction.confidence|default(0) }}%;
+                            "
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="prediction-percent">
+
+                    {{ prediction.confidence|default(0) }}%
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         RISK ASSESSMENT
+    ====================================================== -->
+
+    <div class="dashboard-card">
+
+        <h3>
+            Risk Assessment
+        </h3>
+
+
+        {% set risk_lower = risk_level|default('low')|lower %}
+
+        <div class="risk-layout">
+
+
+            <div
+                class="
+                    risk-gauge
+
+                    {% if 'high' in risk_lower %}
+                        risk-high
+
+                    {% elif 'moderate' in risk_lower or 'medium' in risk_lower %}
+                        risk-medium
+
+                    {% else %}
+                        risk-low
+
+                    {% endif %}
+                "
+
+                style="
+                    --risk-pct:
+                    {{ risk_percentage|default(0) }};
+                "
+            >
+
+                <div class="risk-gauge-inner">
+
+                    <strong>
+
+                        {{ risk_percentage|default(0) }}%
+
+                    </strong>
+
+                    <span>
+                        Risk Score
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="risk-copy">
+
+                <h4>
+
+                    {{ risk_level|default('Unknown')|title }} Risk
+
+                </h4>
+
+
+                <p>
+
+                    {% if 'high' in risk_lower %}
+
+                        Seek timely professional medical
+                        evaluation from a qualified
+                        dermatologist.
+
+                    {% elif 'moderate' in risk_lower or 'medium' in risk_lower %}
+
+                        Consider consulting a dermatologist
+                        for proper clinical evaluation.
+
+                    {% else %}
+
+                        The project-level indicator suggests
+                        comparatively lower risk. Regular
+                        monitoring is advised.
+
+                    {% endif %}
+
+                </p>
+
+
+                <small>
+
+                    Risk Score is a project-level indicator.
+                    It is different from AI Confidence and
+                    should not be interpreted as a medical
+                    probability.
+
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         DESCRIPTION
+    ====================================================== -->
+
+    <div class="info-card">
+
+        <div class="info-card-icon">
+            ℹ️
+        </div>
+
+        <h2>
+            Description
+        </h2>
+
+        <p>
+            {{ description|default(
+                'No description is available.'
+            ) }}
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         SYMPTOMS
+    ====================================================== -->
+
+    <div class="info-card">
+
+        <div class="info-card-icon">
+            📋
+        </div>
+
+        <h2>
+            Symptoms
+        </h2>
+
+        <p>
+            {{ symptoms|default(
+                'No symptom information is available.'
+            ) }}
+        </p>
+
+    </div>
+
+
+    <!-- =====================================================
+         PRECAUTIONS
+    ====================================================== -->
+
+    <div class="info-card">
+
+        <div class="info-card-icon">
+            🛡️
+        </div>
+
+        <h2>
+            Precautions
+        </h2>
+
+        <p>
+            {{ precautions|default(
+                'Consult a qualified dermatologist for appropriate guidance.'
+            ) }}
+        </p>
+
+    </div>
+
+    {% elif status == 'healthy' %}
+
+    <div class="dashboard-card na-card" style="background-color: #f0fdf4; border: 1px solid #bbf7d0;">
+        {% if image_url %}
+        <img
+            class="na-image"
+            src="{{ image_url }}"
+            alt="Uploaded image"
+        >
+        {% endif %}
+        <div class="na-icon" style="background-color: #dcfce7; color: #16a34a;">
+            ✓
+        </div>
+        <h2 style="color: #166534;">
+            Healthy Skin
+        </h2>
+        <p style="color: #15803d; max-width: 700px; margin: auto; line-height: 1.7;">
+            {{ message|default("No obvious signs of the supported skin diseases were detected. Maintain good skin hygiene and protect your skin from excessive sun exposure.") }}
+        </p>
+        <div style="margin-top: 25px; text-align: left; padding: 20px; background: white; border-radius: 12px;">
+            <p style="margin-top: 0;"><strong>AI Confidence:</strong> {{ confidence }}%</p>
+            <p style="margin-bottom: 0;"><small>This result suggests the skin appears healthy based on our AI model, but this is not a definitive medical diagnosis. If you have any concerns, always consult a dermatologist.</small></p>
+        </div>
+    </div>
+
+    {% elif status == 'non_disease_condition' %}
+
+    <div class="dashboard-card na-card" style="background-color: #fffbeb; border: 1px solid #fef08a;">
+        {% if image_url %}
+        <img
+            class="na-image"
+            src="{{ image_url }}"
+            alt="Uploaded image"
+        >
+        {% endif %}
+        <div class="na-icon" style="background-color: #fef3c7; color: #d97706;">
+            ⚠️
+        </div>
+        <h2 style="color: #92400e;">
+            {{ condition_display|default("Non-Disease Condition") }}
+        </h2>
+        <p style="color: #b45309;">
+            {{ message|default("The uploaded image appears to show a non-disease skin condition or minor injury. Please monitor the area and consult a healthcare professional if it worsens or does not heal.") }}
+        </p>
+    </div>
+
+    {% elif status == 'invalid_input' %}
+
+    <!-- =====================================================
+         NOT APPLICABLE
+    ====================================================== -->
+
+    <div class="dashboard-card na-card">
+
+        {% if image_url %}
+
+        <img
+            class="na-image"
+            src="{{ image_url }}"
+            alt="Uploaded image"
+        >
+
+        {% endif %}
+
+        <div class="na-icon">
+            ✕
+        </div>
+
+        <h2>
+            Invalid Input — Human Skin Only
+        </h2>
+
+        <p>
+            {{ message|default("The uploaded image does not appear to contain human skin. Please upload a clear image of human skin for disease classification.") }}
+        </p>
+
+        <span class="na-note">
+            Disease classification was not performed.
+        </span>
+
+    </div>
+
+    {% elif status == 'low_quality' %}
+
+    <div class="dashboard-card na-card" style="background-color: #fefce8; border: 1px solid #fef08a;">
+        {% if image_url %}
+        <img
+            class="na-image"
+            src="{{ image_url }}"
+            alt="Uploaded image"
+        >
+        {% endif %}
+        <div class="na-icon" style="background-color: #fef3c7; color: #ca8a04;">
+            📷
+        </div>
+        <h2 style="color: #854d0e;">
+            Image Quality Too Low
+        </h2>
+        <p style="color: #a16207;">
+            {{ message|default("The uploaded image is too blurry, dark, or low quality for an accurate assessment. Please capture a clearer, well-lit photo of the skin area and try again.") }}
+        </p>
+    </div>
+
+    {% elif status == 'uncertain' %}
+
+    <div class="dashboard-card na-card" style="background-color: #f3f4f6; border: 1px solid #e5e7eb;">
+        {% if image_url %}
+        <img
+            class="na-image"
+            src="{{ image_url }}"
+            alt="Uploaded image"
+        >
+        {% endif %}
+        <div class="na-icon" style="background-color: #e5e7eb; color: #4b5563;">
+            🤔
+        </div>
+        <h2 style="color: #1f2937;">
+            Uncertain Prediction
+        </h2>
+        <p style="color: #374151;">
+            {{ message|default("The AI is uncertain about the classification for this image. This could be due to unusual presentation or lighting. Please consult a professional dermatologist for a clinical diagnosis.") }}
+        </p>
+    </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         GEMINI ASSISTANT
+    ====================================================== -->
+
+    <div class="assistant">
+
+
+        <div class="assistant-header">
+
+            <div class="assistant-title">
+
+                <div class="assistant-icon">
+                    ✨
+                </div>
+
+                <div>
+
+                    <h3>
+                        Gemini AI Medical Assistant
+                    </h3>
+
+                    <span>
+                        Educational information only
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="chat-body"
+            id="chatMessages"
+        >
+
+            <div class="chat-message bot">
+
+                Hello! I am your SkinAI Gemini assistant.
+
+                You can ask me about the uploaded image,
+                the AI result, general skin-health
+                information, symptoms or precautions.
+
+                I provide educational information only.
+
+            </div>
+
+        </div>
+
+
+        <div class="chat-input-area">
+
+            <input
+                id="chatInput"
+                class="chat-input"
+                type="text"
+                placeholder="Ask Gemini about your result..."
+                autocomplete="off"
+            >
+
+
+            <button
+                id="voiceButton"
+                class="voice-btn"
+                type="button"
+                title="Voice input"
+            >
+                🎙️
+            </button>
+
+
+            <button
+                id="sendButton"
+                class="send-btn"
+                type="button"
+            >
+                ➤
+            </button>
+
+        </div>
+
+
+        <div
+            id="voiceStatus"
+            class="voice-status"
+        ></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         ACTION BUTTONS
+    ====================================================== -->
+
+    <div class="result-actions">
+
+
+        <button
+            type="button"
+            onclick="speakResult()"
+        >
+            🔊 Speak Result
+        </button>
+
+
+        <button
+            type="button"
+            onclick="downloadReport()"
+        >
+            📄 Download / Print Report
+        </button>
+
+
+        <button
+            type="button"
+            onclick="window.location.href='{{ url_for('index') }}'"
+        >
+            🏠 Home
+        </button>
+
+    </div>
+
+
+    <!-- =====================================================
+         DISCLAIMER
+    ====================================================== -->
+
+    <div class="medical-disclaimer">
+
+        ⚠️
+
+        <strong>
+            Important:
+        </strong>
+
+        This project is intended for educational and
+        research purposes only. AI predictions are not
+        a confirmed medical diagnosis.
+
+        Please consult a qualified dermatologist for
+        professional evaluation.
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+/* ============================================================
+   TOP PREDICTIONS DATA
+============================================================ */
+
+{% if result and result.detected %}
+
+const topPredictions =
+    {{ (result.top_predictions if (result and 'top_predictions' in result and result.top_predictions) else [])|tojson }};
+
+
+if (
+    topPredictions &&
+    topPredictions.length > 0
+) {
+
+
+    /* ========================================================
+       BAR CHART
+    ======================================================== */
+
+    const topCanvas =
+        document.getElementById(
+            "topPredictionsChart"
+        );
+
+
+    if (topCanvas) {
+
+        new Chart(
+            topCanvas,
+            {
+
+                type: "bar",
+
+                data: {
+
+                    labels:
+                        topPredictions.map(
+                            item => item.name
+                        ),
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Prediction Confidence (%)",
+
+                            data:
+                                topPredictions.map(
+                                    item =>
+                                        Number(
+                                            item.confidence || 0
+                                        )
+                                )
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    scales: {
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            max: 100
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* ========================================================
+       DONUT CHART
+    ======================================================== */
+
+    const probabilityCanvas =
+        document.getElementById(
+            "probabilityChart"
+        );
+
+
+    if (probabilityCanvas) {
+
+        new Chart(
+            probabilityCanvas,
+            {
+
+                type: "doughnut",
+
+                data: {
+
+                    labels:
+                        topPredictions.map(
+                            item => item.name
+                        ),
+
+                    datasets: [
+
+                        {
+
+                            data:
+                                topPredictions.map(
+                                    item =>
+                                        Number(
+                                            item.confidence || 0
+                                        )
+                                )
+
+                        }
+
+                    ]
+
+                },
+
+                options: {
+
+                    responsive: true,
+
+                    plugins: {
+
+                        legend: {
+
+                            position: "bottom"
+
+                        }
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+{% endif %}
+
+
+/* ============================================================
+   SPEAK RESULT
+============================================================ */
+
+function speakResult() {
+
+
+    if (
+        !("speechSynthesis" in window)
+    ) {
+
+        alert(
+            "Speech synthesis is not supported in this browser."
+        );
+
+        return;
+
+    }
+
+
+    const diseaseName =
+        {{ (result.name if (result and 'name' in result) else (result.condition_display if (result and 'condition_display' in result) else (condition_display if condition_display is defined else 'Not Applicable')))|tojson }};
+
+
+    const risk =
+        {{ (result.risk if (result and 'risk' in result) else (result.risk_level if (result and 'risk_level' in result) else (risk_level if risk_level is defined else 'Not Applicable')))|tojson }};
+
+
+    const confidence =
+        {{ (result.confidence if (result and 'confidence' in result) else (confidence if confidence is defined else 0))|tojson }};
+
+
+    const stage =
+        {{ (result.stage if (result and 'stage' in result) else (stage if stage is defined else 'Not Applicable'))|tojson }};
+
+
+    const text =
+
+        "SkinAI analysis result. " +
+
+        "Prediction: " +
+        diseaseName +
+
+        ". Risk level: " +
+        risk +
+
+        ". AI model confidence: " +
+        confidence +
+
+        " percent. " +
+
+        "Stage indicator: " +
+        stage +
+        ".";
+
+
+    const utterance =
+        new SpeechSynthesisUtterance(
+            text
+        );
+
+
+    window.speechSynthesis.cancel();
+
+
+    window.speechSynthesis.speak(
+        utterance
+    );
+
+}
+
+
+/* ============================================================
+   DOWNLOAD / PRINT
+============================================================ */
+
+function downloadReport() {
+
+    window.print();
+
+}
+
+
+/* ============================================================
+   CHAT ELEMENTS
+============================================================ */
+
+const chatInput =
+    document.getElementById(
+        "chatInput"
+    );
+
+
+const sendButton =
+    document.getElementById(
+        "sendButton"
+    );
+
+
+const voiceButton =
+    document.getElementById(
+        "voiceButton"
+    );
+
+
+const chatMessages =
+    document.getElementById(
+        "chatMessages"
+    );
+
+
+const voiceStatus =
+    document.getElementById(
+        "voiceStatus"
+    );
+
+
+/* ============================================================
+   ADD CHAT MESSAGE
+============================================================ */
+
+function addChatMessage(
+    text,
+    type
+) {
+
+
+    if (!chatMessages) {
+
+        return;
+
+    }
+
+
+    const message =
+        document.createElement(
+            "div"
+        );
+
+
+    message.className =
+        "chat-message " +
+        type;
+
+
+    message.textContent =
+        text;
+
+
+    chatMessages.appendChild(
+        message
+    );
+
+
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
+
+}
+
+
+/* ============================================================
+   SEND CHAT MESSAGE TO GEMINI
+============================================================ */
+
+async function sendChatMessage() {
+
+
+    if (!chatInput) {
+
+        return;
+
+    }
+
+
+    const message =
+        chatInput.value.trim();
+
+
+    if (!message) {
+
+        return;
+
+    }
+
+
+    addChatMessage(
+        message,
+        "user"
+    );
+
+    chatInput.value = "";
+
+    const loadingMessage = document.createElement("div");
+    loadingMessage.className = "chat-message bot";
+    loadingMessage.style.fontStyle = "italic";
+    loadingMessage.style.opacity = "0.75";
+    loadingMessage.textContent = "AI is thinking...";
+    chatMessages.appendChild(loadingMessage);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+        const response = await fetch(
+            "/chat",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: message,
+                    disease: {{ (condition_display if condition_display is defined and condition_display else (result.condition_display if result and 'condition_display' in result else disease_name if disease_name is defined and disease_name else ''))|tojson }},
+                    risk: {{ (risk_level if risk_level is defined and risk_level else (result.risk_level if result and 'risk_level' in result else risk if risk is defined and risk else ''))|tojson }},
+                    confidence: {{ (confidence if confidence is defined and confidence else (result.confidence if result and 'confidence' in result else 0))|tojson }},
+                    stage: {{ (stage if stage is defined and stage else (result.stage if result and 'stage' in result else ''))|tojson }}
+                })
+            }
+        );
+
+        const data = await response.json().catch(() => ({}));
+
+        if (response.ok && data.reply) {
+            addChatMessage(
+                data.reply,
+                "bot"
+            );
+        } else if (response.status === 429) {
+            addChatMessage(
+                data.error || "Gemini API rate limit reached. Please wait a moment before trying again.",
+                "bot"
+            );
+        } else if (response.status === 401 || response.status === 403) {
+            addChatMessage(
+                "Please log in to continue chatting with the assistant.",
+                "bot"
+            );
+        } else if (response.status === 503) {
+            addChatMessage(
+                data.error || "Gemini AI service is currently unavailable. Please try again later.",
+                "bot"
+            );
+        } else {
+            addChatMessage(
+                data.error || "Sorry, Gemini could not generate a response. Please try again.",
+                "bot"
+            );
+        }
+    } catch (error) {
+        console.error(
+            "Gemini chat error:",
+            error
+        );
+
+        addChatMessage(
+            "Unable to connect to Gemini AI assistant right now. Please check your connection.",
+            "bot"
+        );
+    } finally {
+        if (loadingMessage && loadingMessage.parentNode) {
+            loadingMessage.parentNode.removeChild(loadingMessage);
+        }
+    }
+}
+
+
+/* ============================================================
+   SEND BUTTON
+============================================================ */
+
+if (sendButton) {
+
+    sendButton.addEventListener(
+        "click",
+        sendChatMessage
+    );
+
+}
+
+
+/* ============================================================
+   ENTER KEY
+============================================================ */
+
+if (chatInput) {
+
+    chatInput.addEventListener(
+
+        "keydown",
+
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                sendChatMessage();
+
+            }
+
+        }
+
+    );
+
+}
+
+
+/* ============================================================
+   VOICE INPUT
+============================================================ */
+
+if (voiceButton) {
+
+
+    voiceButton.addEventListener(
+
+        "click",
+
+        function() {
+
+
+            const SpeechRecognition =
+
+                window.SpeechRecognition ||
+
+                window.webkitSpeechRecognition;
+
+
+            if (!SpeechRecognition) {
+
+                if (voiceStatus) {
+
+                    voiceStatus.textContent =
+                        "Voice input is not supported in this browser.";
+
+                }
+
+                return;
+
+            }
+
+
+            const recognition =
+                new SpeechRecognition();
+
+
+            recognition.lang =
+                "en-IN";
+
+
+            recognition.interimResults =
+                false;
+
+
+            recognition.maxAlternatives =
+                1;
+
+
+            if (voiceStatus) {
+
+                voiceStatus.textContent =
+                    "Listening...";
+
+            }
+
+
+            recognition.start();
+
+
+            recognition.onresult =
+
+                function(event) {
+
+
+                    const transcript =
+                        event.results[0][0]
+                            .transcript;
+
+
+                    if (chatInput) {
+
+                        chatInput.value =
+                            transcript;
+
+                    }
+
+
+                    if (voiceStatus) {
+
+                        voiceStatus.textContent =
+                            "Voice input received.";
+
+                    }
+
+                };
+
+
+            recognition.onerror =
+
+                function() {
+
+                    if (voiceStatus) {
+
+                        voiceStatus.textContent =
+                            "Unable to recognize voice.";
+
+                    }
+
+                };
+
+
+            recognition.onend =
+
+                function() {
+
+                    setTimeout(
+                        function() {
+
+                            if (voiceStatus) {
+
+                                voiceStatus.textContent =
+                                    "";
+
+                            }
+
+                        },
+                        1500
+                    );
+
+                };
+
+        }
+
+    );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,11 @@
+﻿services:
+  - type: web
+    name: skin-disease-detection
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --timeout 120 --workers 1 --threads 4
+    envVars:
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false

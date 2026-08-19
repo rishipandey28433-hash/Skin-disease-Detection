@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Skin Disease Classification & Stage Identification</title>
+
+    <meta name="description"
+          content="AI Powered Skin Disease Classification and Stage Identification System">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+          rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     LOADING SCREEN
+========================================================= -->
+
+<div class="loading-screen" id="loadingScreen">
+
+    <div class="loader"></div>
+
+    <h2 id="loadingText">
+        Initializing AI Diagnosis...
+    </h2>
+
+</div>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="navbar">
+
+    <div class="container nav-container">
+
+
+        <!-- LOGO -->
+
+        <a href="#home" class="logo">
+
+            <img src="{{ url_for('static', filename='images/logo.png') }}"
+                 alt="SkinAI Logo">
+
+            <div class="logo-text">
+
+                <h2>
+                    Skin<span>AI</span>
+                </h2>
+
+                <small>
+                    AI Dermatology System
+                </small>
+
+            </div>
+
+        </a>
+
+
+        <!-- NAVIGATION -->
+
+        <nav>
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="#home" class="active">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#features">
+                        Features
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#workflow">
+                        Workflow
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#upload">
+                        Diagnosis
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#about">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#contact">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+
+        <!-- RIGHT SIDE -->
+
+        <div class="nav-right">
+
+
+            <!-- THEME BUTTON -->
+
+            <button id="themeToggle"
+                    class="theme-btn"
+                    type="button"
+                    aria-label="Toggle dark mode">
+
+                <i class="fa-solid fa-moon"></i>
+
+            </button>
+
+
+            <!-- USER -->
+
+            {% if username %}
+
+                <div class="nav-user-area">
+
+                    <span class="welcome-user">
+                        Hi, {{ username }}
+                    </span>
+
+                    <a href="{{ url_for('logout') }}"
+                       class="nav-btn logout-btn">
+
+                        <i class="fa-solid fa-right-from-bracket"></i>
+
+                        Logout
+
+                    </a>
+
+                </div>
+
+            {% else %}
+
+                <a href="#upload"
+                   class="nav-btn">
+
+                    <i class="fa-solid fa-stethoscope"></i>
+
+                    Start Diagnosis
+
+                </a>
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- MOBILE MENU -->
+
+        <div class="menu-toggle"
+             id="menuToggle">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================================
+     HERO SECTION
+========================================================= -->
+
+<section class="hero"
+         id="home">
+
+    <div class="container hero-container">
+
+
+        <!-- HERO LEFT -->
+
+        <div class="hero-left">
+
+
+            <span class="hero-badge">
+
+                <i class="fa-solid fa-shield-heart"></i>
+
+                AI Powered Skin Disease Detection
+
+            </span>
+
+
+            <h1>
+
+                Smart Skin Disease
+
+                <span>Classification</span>
+
+                &amp; Stage Identification
+
+            </h1>
+
+
+            <p>
+
+                Upload your skin image and let our Artificial
+                Intelligence classify the supported skin disease,
+                provide a confidence score and generate a
+                professional AI analysis report.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <a href="#upload"
+                   class="primary-btn">
+
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                    Upload Image
+
+                </a>
+
+
+                <a href="#features"
+                   class="secondary-btn">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    Learn More
+
+                </a>
+
+            </div>
+
+
+            <!-- HERO FEATURES -->
+
+            <div class="hero-features">
+
+
+                <div class="feature-item">
+
+                    <i class="fa-solid fa-brain"></i>
+
+                    <span>
+                        AI Powered Diagnosis
+                    </span>
+
+                </div>
+
+
+                <div class="feature-item">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                    <span>
+                        Confidence Prediction
+                    </span>
+
+                </div>
+
+
+                <div class="feature-item">
+
+                    <i class="fa-solid fa-file-medical"></i>
+
+                    <span>
+                        Instant PDF Report
+                    </span>
+
+                </div>
+
+
+                <div class="feature-item">
+
+                    <i class="fa-solid fa-user-doctor"></i>
+
+                    <span>
+                        Stage Identification
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- HERO RIGHT -->
+
+        <div class="hero-right">
+
+            <div class="doctor-wrapper">
+
+
+                <div class="circle circle1"></div>
+
+                <div class="circle circle2"></div>
+
+                <div class="circle circle3"></div>
+
+
+                <img src="{{ url_for('static', filename='images/doctor.png') }}"
+                     class="doctor-image"
+                     alt="AI Dermatology Doctor">
+
+
+                <!-- FLOATING CARD 1 -->
+
+                <div class="floating-card card1">
+
+                    <div class="icon">
+
+                        <i class="fa-solid fa-brain"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            AI Analysis
+                        </h4>
+
+                        <p>
+                            Deep Learning
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FLOATING CARD 2 -->
+
+                <div class="floating-card card2">
+
+                    <div class="icon success">
+
+                        <i class="fa-solid fa-shield-heart"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            AI Model
+                        </h4>
+
+                        <p>
+                            Trained Classifier
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FLOATING CARD 3 -->
+
+                <div class="floating-card card3">
+
+                    <div class="icon danger">
+
+                        <i class="fa-solid fa-file-medical"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4>
+                            Instant Report
+                        </h4>
+
+                        <p>
+                            PDF Generated
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     STATS
+========================================================= -->
+
+<section class="stats-section">
+
+    <div class="container stats-grid">
+
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <h2 class="counter"
+                data-target="98">
+
+                0
+
+            </h2>
+
+            <span>
+                % Model Accuracy
+            </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-virus"></i>
+
+            <h2 class="counter"
+                data-target="9">
+
+                0
+
+            </h2>
+
+            <span>
+                Supported Diseases
+            </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-layer-group"></i>
+
+            <h2 class="counter"
+                data-target="4">
+
+                0
+
+            </h2>
+
+            <span>
+                Stage Levels
+            </span>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <i class="fa-solid fa-microscope"></i>
+
+            <h2 class="counter"
+                data-target="5000">
+
+                0
+
+            </h2>
+
+            <span>
+                Sample Predictions
+            </span>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FEATURES
+========================================================= -->
+
+<section class="features"
+         id="features">
+
+    <div class="container">
+
+
+        <div class="section-title">
+
+            <span>
+                OUR FEATURES
+            </span>
+
+            <h2>
+                Advanced AI Powered Skin Disease Detection
+            </h2>
+
+            <p>
+
+                Our intelligent healthcare project combines
+                Artificial Intelligence, Deep Learning and
+                image classification to provide fast and
+                consistent analysis.
+
+            </p>
+
+        </div>
+
+
+        <div class="features-grid">
+
+
+            <!-- FEATURE 1 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-brain"></i>
+
+                </div>
+
+                <h3>
+                    AI Classification
+                </h3>
+
+                <p>
+
+                    A trained Deep Learning model classifies
+                    the uploaded image into one of the
+                    supported skin disease categories.
+
+                </p>
+
+            </div>
+
+
+            <!-- FEATURE 2 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-layer-group"></i>
+
+                </div>
+
+                <h3>
+                    Stage Identification
+                </h3>
+
+                <p>
+
+                    The system provides a project-level
+                    severity/stage indicator based on
+                    the prediction result.
+
+                </p>
+
+            </div>
+
+
+            <!-- FEATURE 3 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-chart-line"></i>
+
+                </div>
+
+                <h3>
+                    Confidence Score
+                </h3>
+
+                <p>
+
+                    Prediction confidence is displayed
+                    to help understand how strongly the
+                    model supports its prediction.
+
+                </p>
+
+            </div>
+
+
+            <!-- FEATURE 4 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-file-medical"></i>
+
+                </div>
+
+                <h3>
+                    Medical Report
+                </h3>
+
+                <p>
+
+                    Generate a professional PDF report
+                    containing the AI analysis and
+                    prediction information.
+
+                </p>
+
+            </div>
+
+
+            <!-- FEATURE 5 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-user-doctor"></i>
+
+                </div>
+
+                <h3>
+                    Doctor Recommendation
+                </h3>
+
+                <p>
+
+                    Provides general guidance and recommends
+                    consultation with a qualified dermatologist
+                    when appropriate.
+
+                </p>
+
+            </div>
+
+
+            <!-- FEATURE 6 -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <i class="fa-solid fa-shield-heart"></i>
+
+                </div>
+
+                <h3>
+                    Secure Processing
+                </h3>
+
+                <p>
+
+                    Uploaded images are processed through
+                    the local application workflow and are
+                    used for AI analysis.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     UPLOAD / DIAGNOSIS
+========================================================= -->
+
+<section class="upload-section"
+         id="upload">
+
+    <div class="container">
+
+
+        <div class="section-title">
+
+            <span>
+                AI DIAGNOSIS
+            </span>
+
+            <h2>
+                Upload Your Skin Image
+            </h2>
+
+            <p>
+
+                Upload a clear image of the skin area.
+                Our trained AI model will analyze the image
+                and display the classification result.
+
+            </p>
+
+        </div>
+
+
+        <div class="medical-disclaimer-banner" style="background-color: #fff7ed; border-left: 4px solid #f97316; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+            <strong><i class="fa-solid fa-triangle-exclamation"></i> Medical Disclaimer:</strong> This AI tool is for educational and informational purposes only. It is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.
+        </div>
+
+        <div class="upload-wrapper">
+
+
+            <!-- UPLOAD CARD -->
+
+            <div class="upload-left">
+
+                <div class="upload-card">
+
+
+                    <form action="{{ url_for('predict') }}"
+                          method="POST"
+                          enctype="multipart/form-data"
+                          id="predictionForm">
+
+
+                        <div class="drop-zone"
+                             id="dropZone">
+
+
+                            <img src="{{ url_for('static', filename='images/upload.png') }}"
+                                 class="upload-image"
+                                 alt="Upload Skin Image">
+
+
+                            <h3>
+                                Drag &amp; Drop Image Here
+                            </h3>
+
+
+                            <p>
+                                or
+                            </p>
+
+
+                            <label class="upload-btn">
+
+                                <i class="fa-solid fa-folder-open"></i>
+
+                                &nbsp; Browse Image
+
+                                <input type="file"
+                                       id="imageInput"
+                                       name="file"
+                                       accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                                       required>
+
+                            </label>
+
+                            <button type="button" id="startCameraBtn" class="upload-btn" style="background: #10b981; margin-top: 10px;">
+                                <i class="fa-solid fa-camera"></i>
+                                &nbsp; Use Camera
+                            </button>
+
+                            <div class="camera-section" id="cameraSection" style="display:none; margin-top: 15px;">
+                                <video id="cameraPreview" autoplay playsinline style="width: 100%; border-radius: 8px;"></video>
+                                <div class="camera-controls" style="margin-top: 10px; display: flex; gap: 10px; justify-content: center;">
+                                    <button type="button" id="captureBtn" class="btn-capture" style="padding: 10px 15px; border: none; border-radius: 8px; background: #2563eb; color: white; cursor: pointer;">Capture Photo</button>
+                                    <button type="button" id="stopCameraBtn" class="btn-stop-camera" style="padding: 10px 15px; border: none; border-radius: 8px; background: #ef4444; color: white; cursor: pointer;">Cancel</button>
+                                </div>
+                            </div>
+
+                            <small>
+
+                                Supported Formats:
+                                JPG • JPEG • PNG • WEBP
+
+                            </small>
+
+
+                        </div>
+
+
+                        <!-- IMAGE PREVIEW -->
+
+                        <div id="previewContainer">
+
+                            <img id="previewImage"
+                                 alt="Selected skin image">
+
+                        </div>
+
+
+                        <!-- ANALYZE BUTTON -->
+
+                        <button type="submit"
+                                class="predict-btn"
+                                id="analyzeBtn">
+
+                            <i class="fa-solid fa-microscope"></i>
+
+                            Analyze Skin Disease
+
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- INFORMATION CARDS -->
+
+            <div class="upload-right">
+
+
+                <div class="ai-card">
+
+                    <div class="ai-icon">
+
+                        <i class="fa-solid fa-brain"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            AI Processing
+                        </h3>
+
+                        <p>
+
+                            The uploaded image is preprocessed
+                            and passed to the trained Deep
+                            Learning classification model.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-card">
+
+                    <div class="ai-icon">
+
+                        <i class="fa-solid fa-virus"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Disease Detection
+                        </h3>
+
+                        <p>
+
+                            The model predicts the closest
+                            supported skin disease category
+                            from the trained classes.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-card">
+
+                    <div class="ai-icon">
+
+                        <i class="fa-solid fa-chart-pie"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Confidence Score
+                        </h3>
+
+                        <p>
+
+                            The prediction confidence is
+                            calculated from the model output
+                            probabilities.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="ai-card">
+
+                    <div class="ai-icon">
+
+                        <i class="fa-solid fa-file-medical"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            AI Analysis Report
+                        </h3>
+
+                        <p>
+
+                            After successful prediction,
+                            the result page can generate
+                            a downloadable PDF report.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     ABOUT
+========================================================= -->
+
+<section class="about"
+         id="about">
+
+    <div class="container">
+
+
+        <div class="about-grid">
+
+
+            <div class="about-image">
+
+                <img src="{{ url_for('static', filename='images/doctor.png') }}"
+                     alt="AI Dermatology Doctor">
+
+            </div>
+
+
+            <div class="about-content">
+
+
+                <span class="section-tag">
+                    ABOUT OUR AI
+                </span>
+
+
+                <h2>
+
+                    AI Based Skin Disease Classification
+                    &amp; Stage Identification
+
+                </h2>
+
+
+                <p>
+
+                    This final-year project uses Artificial
+                    Intelligence and Deep Learning to classify
+                    supported skin disease categories from
+                    uploaded images.
+
+                    The system also displays prediction
+                    confidence, a project-level stage/risk
+                    indicator and an AI analysis report.
+
+                </p>
+
+
+                <div class="about-points">
+
+
+                    <div class="point">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <span>
+                            AI Powered Classification
+                        </span>
+
+                    </div>
+
+
+                    <div class="point">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <span>
+                            Image Based Prediction
+                        </span>
+
+                    </div>
+
+
+                    <div class="point">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <span>
+                            Stage Identification
+                        </span>
+
+                    </div>
+
+
+                    <div class="point">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                        <span>
+                            Professional PDF Report
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     WORKFLOW
+========================================================= -->
+
+<section class="workflow"
+         id="workflow">
+
+    <div class="container">
+
+
+        <div class="section-title">
+
+            <span>
+                WORKFLOW
+            </span>
+
+            <h2>
+                How SkinAI Works
+            </h2>
+
+            <p>
+
+                A simple four-step workflow from image upload
+                to AI prediction and report generation.
+
+            </p>
+
+        </div>
+
+
+        <div class="workflow-grid">
+
+
+            <!-- STEP 1 -->
+
+            <div class="work-card">
+
+                <div class="work-number">
+                    01
+                </div>
+
+                <i class="fa-solid fa-upload"></i>
+
+                <h3>
+                    Upload Image
+                </h3>
+
+                <p>
+
+                    Upload a clear image of
+                    the skin area.
+
+                </p>
+
+            </div>
+
+
+            <!-- STEP 2 -->
+
+            <div class="work-card">
+
+                <div class="work-number">
+                    02
+                </div>
+
+                <i class="fa-solid fa-brain"></i>
+
+                <h3>
+                    AI Processing
+                </h3>
+
+                <p>
+
+                    The image is preprocessed
+                    before entering the AI model.
+
+                </p>
+
+            </div>
+
+
+            <!-- STEP 3 -->
+
+            <div class="work-card">
+
+                <div class="work-number">
+                    03
+                </div>
+
+                <i class="fa-solid fa-virus"></i>
+
+                <h3>
+                    Disease Detection
+                </h3>
+
+                <p>
+
+                    The trained model predicts
+                    the closest supported class.
+
+                </p>
+
+            </div>
+
+
+            <!-- STEP 4 -->
+
+            <div class="work-card">
+
+                <div class="work-number">
+                    04
+                </div>
+
+                <i class="fa-solid fa-file-medical"></i>
+
+                <h3>
+                    Download Report
+                </h3>
+
+                <p>
+
+                    View the result and generate
+                    the AI analysis report.
+
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     SUPPORTED DISEASES
+========================================================= -->
+
+<section class="diseases"
+         id="diseases">
+
+    <div class="container">
+
+
+        <div class="section-title">
+
+            <span>
+                SUPPORTED DISEASES
+            </span>
+
+            <h2>
+                AI Detects These Diseases
+            </h2>
+
+            <p>
+
+                The current trained model contains nine
+                skin lesion categories.
+
+            </p>
+
+        </div>
+
+
+        <div class="disease-grid">
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Melanoma
+
+            </div>
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Basal Cell Carcinoma
+
+            </div>
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Benign Keratosis
+
+            </div>
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Dermatofibroma
+
+            </div>
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Actinic Keratosis
+
+            </div>
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Melanocytic Nevus
+
+            </div>
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Vascular Lesion
+
+            </div>
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Vitiligo
+
+            </div>
+
+
+            <div class="disease-card">
+
+                <i class="fa-solid fa-circle-dot"></i>
+
+                Healthy Skin
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     CONTACT
+========================================================= -->
+
+<section class="contact"
+         id="contact">
+
+    <div class="container">
+
+
+        <div class="section-title">
+
+            <span>
+                CONTACT
+            </span>
+
+            <h2>
+                Get In Touch
+            </h2>
+
+            <p>
+
+                AI Powered Skin Disease Classification
+                &amp; Stage Identification System
+
+            </p>
+
+        </div>
+
+
+        <div class="contact-grid">
+
+
+            <!-- EMAIL -->
+
+            <div class="contact-card">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <h3>
+                    Email
+                </h3>
+
+                <p>
+                    riyakesharwani888@gmail.com
+                </p>
+
+            </div>
+
+
+            <!-- PHONE -->
+
+            <div class="contact-card">
+
+                <i class="fa-solid fa-phone"></i>
+
+                <h3>
+                    Phone
+                </h3>
+
+                <p>
+                    +91 8887796831
+                </p>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="contact-card">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <h3>
+                    Location
+                </h3>
+
+                <p>
+                    India
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="container">
+
+
+        <div class="footer-top">
+
+
+            <div class="footer-logo">
+
+                <img src="{{ url_for('static', filename='images/logo.png') }}"
+                     alt="SkinAI Logo">
+
+                <h2>
+                    Skin<span>AI</span>
+                </h2>
+
+            </div>
+
+
+            <p>
+
+                AI Powered Skin Disease Classification
+                &amp; Stage Identification using
+                Deep Learning.
+
+            </p>
+
+
+            <div class="social-links">
+
+
+                <a href="#"
+                   aria-label="Facebook">
+
+                    <i class="fab fa-facebook-f"></i>
+
+                </a>
+
+
+                <a href="#"
+                   aria-label="Instagram">
+
+                    <i class="fab fa-instagram"></i>
+
+                </a>
+
+
+                <a href="#"
+                   aria-label="LinkedIn">
+
+                    <i class="fab fa-linkedin-in"></i>
+
+                </a>
+
+
+                <a href="#"
+                   aria-label="GitHub">
+
+                    <i class="fab fa-github"></i>
+
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+        <hr>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 SkinAI. All Rights Reserved.
+            </p>
+
+            <p>
+                Developed using Flask • TensorFlow • Deep Learning
+            </p>
+
+        </div>
+
+
+    </div>
+
+</footer>
+
+
+
+<!-- =========================================================
+     SCROLL TOP BUTTON
+========================================================= -->
+
+<button class="scroll-top"
+        id="scrollTop"
+        type="button"
+        aria-label="Scroll to top">
+
+    <i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       LOADING SCREEN
+    ===================================================== */
+
+    const loadingScreen =
+        document.getElementById("loadingScreen");
+
+    const loadingText =
+        document.getElementById("loadingText");
+
+
+    const loadingMessages = [
+        "Initializing AI Diagnosis...",
+        "Loading SkinAI System...",
+        "Preparing Deep Learning Model...",
+        "System Ready..."
+    ];
+
+
+    let loadingIndex = 0;
+
+
+    const loadingInterval = setInterval(function () {
+
+        if (loadingIndex < loadingMessages.length) {
+
+            loadingText.textContent =
+                loadingMessages[loadingIndex];
+
+            loadingIndex++;
+
+        }
+
+    }, 450);
+
+
+    setTimeout(function () {
+
+        clearInterval(loadingInterval);
+
+        if (loadingScreen) {
+
+            loadingScreen.style.opacity = "0";
+            loadingScreen.style.pointerEvents = "none";
+
+            setTimeout(function () {
+
+                loadingScreen.style.display = "none";
+
+            }, 400);
+
+        }
+
+    }, 1800);
+
+
+
+    /* =====================================================
+       MOBILE MENU
+    ===================================================== */
+
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+    const navLinks =
+        document.querySelector(".nav-links");
+
+
+    if (menuToggle && navLinks) {
+
+        menuToggle.addEventListener("click", function () {
+
+            if (navLinks.style.display === "flex") {
+
+                navLinks.style.display = "none";
+
+            } else {
+
+                navLinks.style.display = "flex";
+
+                navLinks.style.flexDirection = "column";
+
+                navLinks.style.position = "absolute";
+
+                navLinks.style.top = "78px";
+
+                navLinks.style.left = "0";
+
+                navLinks.style.right = "0";
+
+                navLinks.style.padding = "20px";
+
+                navLinks.style.background = "white";
+
+                navLinks.style.borderRadius = "18px";
+
+                navLinks.style.boxShadow =
+                    "0 15px 35px rgba(0,0,0,.10)";
+
+                navLinks.style.zIndex = "999";
+
+            }
+
+        });
+
+
+        navLinks.querySelectorAll("a").forEach(function (link) {
+
+            link.addEventListener("click", function () {
+
+                if (window.innerWidth <= 768) {
+
+                    navLinks.style.display = "none";
+
+                }
+
+            });
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       DARK MODE
+    ===================================================== */
+
+    const themeToggle =
+        document.getElementById("themeToggle");
+
+
+    if (themeToggle) {
+
+        const savedTheme =
+            localStorage.getItem("skinAITheme");
+
+
+        if (savedTheme === "dark") {
+
+            document.body.classList.add("dark");
+
+            themeToggle.innerHTML =
+                '<i class="fa-solid fa-sun"></i>';
+
+        }
+
+
+        themeToggle.addEventListener("click", function () {
+
+            document.body.classList.toggle("dark");
+
+
+            const isDark =
+                document.body.classList.contains("dark");
+
+
+            if (isDark) {
+
+                localStorage.setItem(
+                    "skinAITheme",
+                    "dark"
+                );
+
+                themeToggle.innerHTML =
+                    '<i class="fa-solid fa-sun"></i>';
+
+            } else {
+
+                localStorage.setItem(
+                    "skinAITheme",
+                    "light"
+                );
+
+                themeToggle.innerHTML =
+                    '<i class="fa-solid fa-moon"></i>';
+
+            }
+
+        });
+
+    }
+
+
+
+    /* =====================================================
+       IMAGE UPLOAD + PREVIEW
+    ===================================================== */
+
+    const imageInput =
+        document.getElementById("imageInput");
+
+    const previewContainer =
+        document.getElementById("previewContainer");
+
+    const previewImage =
+        document.getElementById("previewImage");
+
+    const dropZone =
+        document.getElementById("dropZone");
+
+
+    function showPreview(file) {
+
+        if (!file) {
+            return;
+        }
+
+
+        const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+
+        if (!allowedTypes.includes(file.type)) {
+
+            alert(
+                "Please upload a JPG, JPEG, PNG or WEBP image."
+            );
+
+            if (imageInput) {
+                imageInput.value = "";
+            }
+
+            return;
+
+        }
+
+
+        const maxSize =
+            10 * 1024 * 1024;
+
+
+        if (file.size > maxSize) {
+
+            alert(
+                "Image size should be less than 10 MB."
+            );
+
+            if (imageInput) {
+                imageInput.value = "";
+            }
+
+            return;
+
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload = function (event) {
+
+            previewImage.src =
+                event.target.result;
+
+            previewContainer.style.display =
+                "block";
+
+        };
+
+
+        reader.readAsDataURL(file);
+
+    }
+
+
+    if (imageInput) {
+
+        imageInput.addEventListener(
+            "change",
+            function () {
+
+                if (this.files.length > 0) {
+
+                    showPreview(this.files[0]);
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       DROP ZONE CLICK
+    ===================================================== */
+
+    if (dropZone && imageInput) {
+
+        dropZone.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target.tagName !== "LABEL" &&
+                    event.target.tagName !== "INPUT"
+                ) {
+
+                    imageInput.click();
+
+                }
+
+            }
+        );
+
+
+        /* DRAG ENTER */
+
+        dropZone.addEventListener(
+            "dragenter",
+            function (event) {
+
+                event.preventDefault();
+
+                dropZone.classList.add(
+                    "drag-active"
+                );
+
+            }
+        );
+
+
+        /* DRAG OVER */
+
+        dropZone.addEventListener(
+            "dragover",
+            function (event) {
+
+                event.preventDefault();
+
+                dropZone.classList.add(
+                    "drag-active"
+                );
+
+            }
+        );
+
+
+        /* DRAG LEAVE */
+
+        dropZone.addEventListener(
+            "dragleave",
+            function (event) {
+
+                event.preventDefault();
+
+                dropZone.classList.remove(
+                    "drag-active"
+                );
+
+            }
+        );
+
+
+        /* DROP */
+
+        dropZone.addEventListener(
+            "drop",
+            function (event) {
+
+                event.preventDefault();
+
+                dropZone.classList.remove(
+                    "drag-active"
+                );
+
+
+                const files =
+                    event.dataTransfer.files;
+
+
+                if (files.length > 0) {
+
+                    const file =
+                        files[0];
+
+
+                    try {
+
+                        const dataTransfer =
+                            new DataTransfer();
+
+                        dataTransfer.items.add(file);
+
+                        imageInput.files =
+                            dataTransfer.files;
+
+                    } catch (error) {
+
+                        console.log(
+                            "Browser does not support DataTransfer."
+                        );
+
+                    }
+
+
+                    showPreview(file);
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       PREDICTION FORM
+    ===================================================== */
+
+    const predictionForm =
+        document.getElementById("predictionForm");
+
+    const analyzeBtn =
+        document.getElementById("analyzeBtn");
+
+
+    if (predictionForm) {
+
+        predictionForm.addEventListener(
+            "submit",
+            function (event) {
+
+
+                if (
+                    !imageInput ||
+                    !imageInput.files ||
+                    imageInput.files.length === 0
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Please select a skin image first."
+                    );
+
+                    return;
+
+                }
+
+
+                if (analyzeBtn) {
+
+                    analyzeBtn.disabled = true;
+
+                    analyzeBtn.innerHTML =
+                        '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing Image...';
+
+                    analyzeBtn.style.opacity =
+                        "0.75";
+
+                    analyzeBtn.style.cursor =
+                        "not-allowed";
+
+                }
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       COUNTER ANIMATION
+    ===================================================== */
+
+    const counters =
+        document.querySelectorAll(".counter");
+
+
+    function animateCounter(counter) {
+
+        const target =
+            parseInt(
+                counter.getAttribute("data-target")
+            );
+
+
+        let current = 0;
+
+
+        const increment =
+            Math.max(
+                1,
+                Math.ceil(target / 60)
+            );
+
+
+        const timer =
+            setInterval(function () {
+
+                current += increment;
+
+
+                if (current >= target) {
+
+                    current = target;
+
+                    clearInterval(timer);
+
+                }
+
+
+                counter.textContent =
+                    current.toLocaleString();
+
+            }, 25);
+
+    }
+
+
+    const counterObserver =
+        new IntersectionObserver(
+            function (entries, observer) {
+
+                entries.forEach(function (entry) {
+
+                    if (entry.isIntersecting) {
+
+                        animateCounter(
+                            entry.target
+                        );
+
+                        observer.unobserve(
+                            entry.target
+                        );
+
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.5
+            }
+        );
+
+
+    counters.forEach(function (counter) {
+
+        counterObserver.observe(counter);
+
+    });
+
+
+
+    /* =====================================================
+       ACTIVE NAVIGATION
+    ===================================================== */
+
+    const sections =
+        document.querySelectorAll(
+            "section[id]"
+        );
+
+    const navigationLinks =
+        document.querySelectorAll(
+            ".nav-links a"
+        );
+
+
+    window.addEventListener(
+        "scroll",
+        function () {
+
+            let currentSection = "";
+
+
+            sections.forEach(function (section) {
+
+                const sectionTop =
+                    section.offsetTop - 150;
+
+                const sectionHeight =
+                    section.offsetHeight;
+
+
+                if (
+                    window.scrollY >= sectionTop &&
+                    window.scrollY <
+                    sectionTop + sectionHeight
+                ) {
+
+                    currentSection =
+                        section.getAttribute("id");
+
+                }
+
+            });
+
+
+            navigationLinks.forEach(function (link) {
+
+                link.classList.remove(
+                    "active"
+                );
+
+
+                const href =
+                    link.getAttribute("href");
+
+
+                if (
+                    href === "#" + currentSection
+                ) {
+
+                    link.classList.add(
+                        "active"
+                    );
+
+                }
+
+            });
+
+        }
+    );
+
+
+
+    /* =====================================================
+       SCROLL TO TOP
+    ===================================================== */
+
+    const scrollTop =
+        document.getElementById("scrollTop");
+
+
+    if (scrollTop) {
+
+        scrollTop.style.display = "none";
+
+
+        window.addEventListener(
+            "scroll",
+            function () {
+
+                if (window.scrollY > 500) {
+
+                    scrollTop.style.display =
+                        "flex";
+
+                    scrollTop.style.alignItems =
+                        "center";
+
+                    scrollTop.style.justifyContent =
+                        "center";
+
+                } else {
+
+                    scrollTop.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+        scrollTop.addEventListener(
+            "click",
+            function () {
+
+                window.scrollTo({
+
+                    top: 0,
+
+                    behavior: "smooth"
+
+                });
+
+            }
+        );
+
+    }
+
+
+
+    /* =====================================================
+       SMOOTH SCROLL
+    ===================================================== */
+
+    document.querySelectorAll(
+        'a[href^="#"]'
+    ).forEach(function (anchor) {
+
+        anchor.addEventListener(
+            "click",
+            function (event) {
+
+                const targetId =
+                    this.getAttribute("href");
+
+
+                if (
+                    targetId &&
+                    targetId !== "#"
+                ) {
+
+                    const target =
+                        document.querySelector(
+                            targetId
+                        );
+
+
+                    if (target) {
+
+                        event.preventDefault();
+
+
+                        target.scrollIntoView({
+
+                            behavior: "smooth",
+
+                            block: "start"
+
+                        });
+
+                    }
+
+                }
+
+            }
+        );
+
+    });
+
+
+});
+
+</script>
+
+
+</body>
+
+</html>

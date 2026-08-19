@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SkinAI | Login</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body class="login-page">
+
+
+<div class="login-wrapper">
+
+
+    <div class="login-card">
+
+
+        <div class="login-logo">
+
+            <div class="login-logo-icon">
+                🩺
+            </div>
+
+            <h1>
+                Skin<span>AI</span>
+            </h1>
+
+            <p>
+                Skin Disease Classification &
+                Stage Identification
+            </p>
+
+        </div>
+
+
+        <form method="POST"
+              action="{{ url_for('login') }}">
+
+
+            <div class="login-field">
+
+                <label>
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter username"
+                    required
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+            <div class="login-field">
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter password"
+                    required
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            {% if error %}
+
+            <div class="login-error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <button
+                type="submit"
+                class="login-btn">
+
+                Login to SkinAI
+
+            </button>
+
+
+        </form>
+
+
+        <div class="login-demo">
+
+            <strong>
+                Demo Login
+            </strong>
+
+            <span>
+                Username: admin
+            </span>
+
+            <span>
+                Password: admin123
+            </span>
+
+        </div>
+
+
+        <p class="login-disclaimer">
+
+            Educational & research project.
+            AI predictions are not medical diagnosis.
+
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
