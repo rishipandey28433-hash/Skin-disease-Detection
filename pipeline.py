@@ -572,67 +572,39 @@ class SkinAnalysisPipeline:
                     print(f"[DEBUG] Grad-CAM generation note: {gc_err}")
 
             # 6. Result Thresholding & Categorization
-            disease_thresh = CONFIDENCE_THRESHOLD if CONFIDENCE_THRESHOLD > 1.0 else CONFIDENCE_THRESHOLD * 100.0
-
             if top_class in HEALTHY_CLASSES:
-                # HUMAN SKIN != HEALTHY SKIN
-                # Only report Healthy Skin if model confidence is very high (>= 90%) and no OOD/unclassified lesion ambiguity exists
-                if top_conf >= 90.0:
-                    res = self._build_result(
-                        status=STATUS_HEALTHY,
-                        condition=top_class,
-                        confidence=top_conf,
-                        top_predictions=top_preds,
-                        quality=quality_info,
-                        skin_check=skin_status,
-                        message="Healthy skin detected. No skin disease identified.",
-                        gradcam_url=gradcam_url
-                    )
-                else:
-                    res = self._build_result(
-                        status=STATUS_UNCERTAIN,
-                        condition=top_class,
-                        confidence=top_conf,
-                        top_predictions=top_preds,
-                        quality=quality_info,
-                        skin_check=skin_status,
-                        message="Skin features or potential abnormality observed, but the HAM10000 model confidence is low. Professional dermatological evaluation is recommended.",
-                        gradcam_url=gradcam_url
-                    )
-
-            elif top_class in DISEASE_CLASSES:
-                if top_conf >= disease_thresh:
-                    res = self._build_result(
-                        status=STATUS_DISEASE,
-                        condition=top_class,
-                        confidence=top_conf,
-                        top_predictions=top_preds,
-                        quality=quality_info,
-                        skin_check=skin_status,
-                        message=f"Model prediction: {CLASS_DISPLAY_NAMES.get(top_class, top_class)}.",
-                        gradcam_url=gradcam_url
-                    )
-                else:
-                    res = self._build_result(
-                        status=STATUS_UNCERTAIN,
-                        condition=top_class,
-                        confidence=top_conf,
-                        top_predictions=top_preds,
-                        quality=quality_info,
-                        skin_check=skin_status,
-                        message=f"Possible signs of {CLASS_DISPLAY_NAMES.get(top_class, top_class)} observed, but model confidence is low ({top_conf:.1f}%). Professional screening recommended.",
-                        gradcam_url=gradcam_url
-                    )
-
-            else:
                 res = self._build_result(
-                    status=STATUS_UNCERTAIN,
+                    status=STATUS_HEALTHY,
                     condition=top_class,
                     confidence=top_conf,
                     top_predictions=top_preds,
                     quality=quality_info,
                     skin_check=skin_status,
-                    message="Unclassified skin condition.",
+                    message="Healthy skin detected. No significant skin lesion or disease identified.",
+                    gradcam_url=gradcam_url
+                )
+
+            elif top_class in DISEASE_CLASSES:
+                res = self._build_result(
+                    status=STATUS_DISEASE,
+                    condition=top_class,
+                    confidence=top_conf,
+                    top_predictions=top_preds,
+                    quality=quality_info,
+                    skin_check=skin_status,
+                    message=f"Model prediction: {CLASS_DISPLAY_NAMES.get(top_class, top_class)} ({top_conf:.1f}% confidence).",
+                    gradcam_url=gradcam_url
+                )
+
+            else:
+                res = self._build_result(
+                    status=STATUS_DISEASE,
+                    condition=top_class,
+                    confidence=top_conf,
+                    top_predictions=top_preds,
+                    quality=quality_info,
+                    skin_check=skin_status,
+                    message=f"Analysis complete: {CLASS_DISPLAY_NAMES.get(top_class, top_class)}.",
                     gradcam_url=gradcam_url
                 )
 
