@@ -144,10 +144,70 @@ def check_skin_image(image_path):
     return "human_skin"
 
 
+def _local_dermatology_assistant(message: str, result=None) -> str:
+    msg_lower = message.lower()
+    
+    cond_name = "the analyzed condition"
+    risk_level = "Unknown"
+    confidence = 0
+    stage = "Not Available"
+    
+    if isinstance(result, dict):
+        cond_name = result.get('name') or result.get('condition_display') or result.get('disease') or cond_name
+        risk_level = result.get('risk') or result.get('risk_level') or risk_level
+        confidence = result.get('confidence') or 0
+        stage = result.get('stage') or stage
+    elif isinstance(result, str) and result:
+        cond_name = result
+
+    from dataset_config import CLASS_PRECAUTIONS, CLASS_SYMPTOMS, CLASS_DESCRIPTIONS
+
+    # Matching precautions
+    if any(w in msg_lower for w in ["precaution", "prevent", "care", "cure", "do", "avoid", "protect", "remedy", "treatment"]):
+        precautions = ""
+        for k, v in CLASS_PRECAUTIONS.items():
+            if k.lower() in cond_name.lower() or cond_name.lower() in k.lower():
+                precautions = v
+                break
+        if not precautions:
+            precautions = "Use broad-spectrum sun protection (SPF 30+), avoid picking or scratching the lesion, keep the skin clean and moisturized, and monitor regularly."
+        return f"For **{cond_name}**, recommended precautions and care guidelines:\n• {precautions}\n\n⚠️ **Medical Note**: This is AI-assisted guidance for educational purposes. Please consult a dermatologist for personalized clinical evaluation."
+
+    # Matching symptoms
+    if any(w in msg_lower for w in ["symptom", "sign", "feel", "look", "cause", "why", "how"]):
+        symptoms = ""
+        for k, v in CLASS_SYMPTOMS.items():
+            if k.lower() in cond_name.lower() or cond_name.lower() in k.lower():
+                symptoms = v
+                break
+        if not symptoms:
+            symptoms = "Skin discoloration, unusual spots, itching, textural differences, or evolving lesion borders."
+        return f"Common symptoms associated with **{cond_name}**:\n• {symptoms}\n\n⚠️ If you experience rapid color changes, bleeding, pain, or spreading, seek immediate dermatological care."
+
+    # Matching risk / cancer / stage
+    if any(w in msg_lower for w in ["risk", "danger", "cancer", "serious", "stage", "severity", "harm"]):
+        return f"**Risk & Severity Summary for {cond_name}**:\n• **Risk Category**: {risk_level.title()}\n• **Clinical Observation Stage**: {stage}\n• **AI Model Confidence**: {confidence}%\n\n⚠️ High-risk or evolving lesions should always be confirmed via dermatoscopic examination and biopsy by a doctor."
+
+    # Greetings & overview
+    if any(w in msg_lower for w in ["hello", "hi", "hey", "who are you", "help", "intro"]):
+        return f"Hello! I am your AI Dermatology Assistant. I can answer questions about your analysis results for **{cond_name}**, including symptoms, precautions, risk levels, and self-care recommendations. What would you like to know?"
+
+    # General description
+    desc = ""
+    for k, v in CLASS_DESCRIPTIONS.items():
+        if k.lower() in cond_name.lower() or cond_name.lower() in k.lower():
+            desc = v
+            break
+    if not desc:
+        desc = f"An AI skin analysis was performed identifying features consistent with {cond_name}."
+
+    return f"**Overview for {cond_name}**:\n{desc}\n\n**Recommended Steps**:\n1. Maintain proper skin hygiene and daily UV protection.\n2. Regularly monitor using the ABCDE guidelines (Asymmetry, Border, Color, Diameter, Evolution).\n3. Consult a qualified healthcare professional for formal diagnosis."
+
+
 def ask_gemini(message, result=None, history=None):
 
     if not gemini_available():
-        return None
+        return _local_dermatology_assistant(message, result)
 
     try:
         client = genai.Client(
@@ -234,8 +294,9 @@ Rules:
         if last_error:
             print(f"[GEMINI ERROR] All fallback models failed. Last error: {last_error}")
 
-        return None
+        # Fallback to local assistant if online models fail
+        return _local_dermatology_assistant(message, result)
 
     except Exception as error:
         print(f"[GEMINI ERROR] Chat error: {error}")
-        return None
+        return _local_dermatology_assistant(message, result)

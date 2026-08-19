@@ -328,11 +328,8 @@ def chat():
         else:
             context = ""
     
-    if not gemini_available():
-        return jsonify({"success": False, "error": "Gemini API is not configured or available."}), 503
-        
     try:
-        print("[CHAT] Calling Gemini...")
+        print("[CHAT] Calling Gemini Assistant...")
         reply = ask_gemini(user_message, context)
         if reply:
             print("[CHAT] Gemini response received successfully.")

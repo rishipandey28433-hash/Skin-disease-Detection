@@ -212,7 +212,7 @@ APP_NAME = (
 
 VERSION = "3.0"
 
-AUTHOR = "Riya Kesharwani"
+AUTHOR = "Rishi Pandey"
 
 
 # ==========================================================

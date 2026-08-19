@@ -209,5 +209,4 @@ Default login: `admin` / `admin123`
 
 ## Author
 
-**Riya Kesharwani** — Final Year B.Tech Project
->>>>>>> bf8e76e (Initial project setup)
+**Rishi Pandey** — Final Year B.Tech Project
