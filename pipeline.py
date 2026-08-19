@@ -365,22 +365,52 @@ class SkinAnalysisPipeline:
 
             predictions = predictions / np.sum(predictions)
 
-            top_indices = np.argsort(predictions)[::-1]
+            disease_indices = [i for i, c in enumerate(self.class_names) if c in DISEASE_CLASSES]
+            healthy_indices = [i for i, c in enumerate(self.class_names) if c in HEALTHY_CLASSES]
 
-            top_predictions = []
-            for i in range(min(3, len(self.class_names))):
-                idx = top_indices[i]
-                class_id = self.class_names[idx]
-                conf = float(predictions[idx] * 100.0)
+            h_idx = healthy_indices[0] if healthy_indices else None
+            healthy_prob = float(predictions[h_idx]) if h_idx is not None else 0.0
+            disease_prob = float(np.sum([predictions[i] for i in disease_indices])) if disease_indices else 1.0
 
-                top_predictions.append({
-                    "class": class_id,
-                    "name": CLASS_DISPLAY_NAMES.get(class_id, class_id),
-                    "confidence": round(conf, 2)
-                })
+            # If healthy probability dominates (>= 50% and > disease_prob), classify as healthy
+            if healthy_prob >= 0.50 and healthy_prob > disease_prob:
+                top_indices = np.argsort(predictions)[::-1]
+                top_class = self.class_names[top_indices[0]]
+                top_confidence = float(predictions[top_indices[0]] * 100.0)
+                top_idx = int(top_indices[0])
 
-            top_class = self.class_names[top_indices[0]]
-            top_confidence = float(predictions[top_indices[0]] * 100.0)
+                top_predictions = []
+                for i in range(min(3, len(self.class_names))):
+                    idx = top_indices[i]
+                    class_id = self.class_names[idx]
+                    conf = float(predictions[idx] * 100.0)
+                    top_predictions.append({
+                        "class": class_id,
+                        "name": CLASS_DISPLAY_NAMES.get(class_id, class_id),
+                        "confidence": round(conf, 2)
+                    })
+            else:
+                # Disease lesion detected: rank among disease classes
+                sorted_disease_indices = sorted(disease_indices, key=lambda i: predictions[i], reverse=True)
+                top_idx = int(sorted_disease_indices[0])
+                top_class = self.class_names[top_idx]
+
+                if disease_prob > 0:
+                    scaled_disease_probs = {i: (predictions[i] / disease_prob) for i in disease_indices}
+                else:
+                    scaled_disease_probs = {i: predictions[i] for i in disease_indices}
+
+                top_confidence = float(scaled_disease_probs[top_idx] * 100.0)
+
+                top_predictions = []
+                for idx in sorted_disease_indices[:3]:
+                    class_id = self.class_names[idx]
+                    conf = float(scaled_disease_probs[idx] * 100.0)
+                    top_predictions.append({
+                        "class": class_id,
+                        "name": CLASS_DISPLAY_NAMES.get(class_id, class_id),
+                        "confidence": round(conf, 2)
+                    })
 
             print(f"[DEBUG] Disease Classification: Predicted={top_class} ({CLASS_DISPLAY_NAMES.get(top_class)}) | Confidence={top_confidence:.2f}%")
 
@@ -388,7 +418,7 @@ class SkinAnalysisPipeline:
                 "top_class_id": top_class,
                 "top_confidence": round(top_confidence, 2),
                 "top_predictions": top_predictions,
-                "top_index": int(top_indices[0])
+                "top_index": top_idx
             }
 
             return predictions, result_dict
