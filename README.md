@@ -27,6 +27,7 @@
 ## 📌 Table of Contents
 
 - [Overview](#-overview)
+- [Visual Explainability (Grad-CAM Results)](#-visual-explainability-grad-cam-results)
 - [Key Features](#-key-features)
 - [Multi-Stage Analysis Pipeline](#-multi-stage-analysis-pipeline)
 - [Supported Disease Taxonomy](#-supported-disease-taxonomy)
@@ -36,7 +37,7 @@
 - [Quick Start & Installation](#-quick-start--installation)
 - [Environment Configuration](#-environment-configuration)
 - [API Documentation](#-api-documentation)
-- [Explainable AI (Grad-CAM)](#-explainable-ai-grad-cam)
+- [Automated Testing](#-automated-testing)
 - [Deployment Guide](#-deployment-guide)
 - [Author & Contact](#-author--contact)
 - [License](#-license)
@@ -45,9 +46,43 @@
 
 ## 📖 Overview
 
-**SkinAI** is an end-to-end clinical skin disease analysis system designed to classify dermatological lesions, estimate condition risk levels, generate visual heatmap explanations (Grad-CAM), and provide medical assistant interactions.
+**SkinAI** is an end-to-end clinical skin disease analysis system designed to classify dermatological lesions, estimate condition risk levels, generate visual heatmap explanations (Grad-CAM), and provide interactive medical assistant consultations.
 
 Built on transfer learning with **EfficientNetB0**, the system evaluates images through a 7-stage pipeline that validates technical image quality, performs human skin screening, detects lesions across 8 distinct diagnostic categories, and produces instant downloadable PDF reports.
+
+---
+
+## 🔬 Visual Explainability (Grad-CAM Results)
+
+To provide transparency and clinical trust, **SkinAI** implements **Gradient-weighted Class Activation Mapping (Grad-CAM)**. Grad-CAM computes gradients of the top predicted class score with respect to the feature map activations of the final convolutional layer (`top_conv` in EfficientNetB0), highlighting the exact morphological patterns and lesion borders influencing the neural network's diagnosis.
+
+### 🌟 Multi-Case Activation Showcase
+
+![Grad-CAM Master Showcase](docs/assets/gradcam_showcase.png)
+
+### 🔍 Diagnostic Case Studies
+
+<div align="center">
+
+| Case # | Input Dermatoscopy vs. Grad-CAM Activation Overlay | Diagnosis & Confidence | Risk Level |
+|:---:|:---:|:---:|:---:|
+| **Case 01** | ![Case 1](docs/assets/gradcam_result_1.png) | **Melanocytic Nevus** (Common Mole)<br>`Confidence: 18.1%` | 🟢 **Low** |
+| **Case 02** | ![Case 2](docs/assets/gradcam_result_2.png) | **Melanocytic Nevus** (Pigmented Mole)<br>`Confidence: 20.3%` | 🟢 **Low** |
+| **Case 03** | ![Case 3](docs/assets/gradcam_result_3.png) | **Basal Cell Carcinoma** (BCC Lesion)<br>`Confidence: 19.0%` | 🔴 **High** |
+
+</div>
+
+### 📐 Grad-CAM Mathematical Formulation
+
+$$\alpha_k^c = \frac{1}{Z} \sum_{i} \sum_{j} \frac{\partial y^c}{\partial A_{i,j}^k}$$
+
+$$L_{\text{Grad-CAM}}^c = \text{ReLU}\left( \sum_k \alpha_k^c A^k \right)$$
+
+Where:
+- $y^c$ is the raw classification score for disease class $c$.
+- $A^k$ is the $k$-th feature map activation from the final convolutional layer.
+- $\alpha_k^c$ captures the importance weight of feature map $k$ for class $c$.
+- $\text{ReLU}$ ensures that only features positively contributing to the target classification are visualized.
 
 ---
 
@@ -211,7 +246,7 @@ http://localhost:5000
 
 ---
 
-## 🧪 Running Automated Tests
+## 🧪 Automated Testing
 
 Run the complete test suite:
 ```bash
@@ -219,7 +254,7 @@ python -m unittest discover tests
 ```
 *Expected Output:*
 ```text
-Ran 19 tests in 1.25s
+Ran 19 tests in 1.31s
 OK
 ```
 
@@ -237,17 +272,6 @@ OK
 | `POST` | `/predict` | Multipart upload for multi-stage analysis | Yes |
 | `POST` | `/chat` | Interactive AI dermatology assistant consultation | Yes |
 | `POST` | `/download_report` | Generate and download clinical PDF report | Yes |
-
----
-
-## 📊 Explainable AI (Grad-CAM)
-
-To provide transparency and clinical explainability, the system uses **Gradient-weighted Class Activation Mapping (Grad-CAM)**:
-
-1. Computes gradients of the top predicted class score with respect to the feature map activations of the final convolutional layer (`top_conv` in EfficientNetB0).
-2. Performs global average pooling over the gradients to determine importance weights.
-3. Generates a 2D heatmap highlighting pixels with high predictive influence.
-4. Overlays a JET colormap on the original dermatoscopy image for clinician review.
 
 ---
 
